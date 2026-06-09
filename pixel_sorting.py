@@ -3,8 +3,8 @@ import numpy as np
 import colorsys
 
 # ── Configuration ─────────────────────────────────────────────────────────────
-INPUT_PATH     = "DSCF2625.jpg"
-OUTPUT_PATH    = "pixel_sorted_11.jpg"
+INPUT_PATH     = r"D:\Pictures\DSCF2385.JPG"
+OUTPUT_PATH    = r"D:\Pictures\PixelSorting\pixel_sorted_01.jpg"
 
 SORT_AXIS      = "horizontal"  # "horizontal" | "vertical"
 SORT_KEY       = "brightness"  # "brightness" | "hue" | "saturation" | "red" | "green" | "blue"
