@@ -4,25 +4,27 @@ import colorsys
 import os
 
 # ── Configuration ─────────────────────────────────────────────────────────────
-INPUT_PATH       = r"D:\Pictures\DSCF2385.JPG"
-OUTPUT_PATH      = r"D:\Pictures\PixelSorting\pixel_sorted_01.jpg"
-MASK_PATH        = None        # grayscale mask image (white=sort, black=skip), or None
+INPUT_PATH = r"D:\Pictures\DSCF2385.JPG"
+OUTPUT_PATH = r"D:\Pictures\PixelSorting\pixel_sorted_02.jpg"
+MASK_PATH = None  # grayscale mask image (white=sort, black=skip), or None
 
-BATCH_MODE       = False       # set True to process multiple images
-BATCH_JOBS       = [           # list of (input_path, output_path) pairs
+BATCH_MODE = False  # set True to process multiple images
+BATCH_JOBS = [  # list of (input_path, output_path) pairs
     # (r"D:\Pictures\img1.jpg", r"D:\Pictures\PixelSorting\img1_sorted.jpg"),
 ]
-BATCH_INPUT_DIR  = None        # process all images in this folder (alternative to BATCH_JOBS)
-BATCH_OUTPUT_DIR = None        # save batch results to this folder
-BATCH_MASK_PATH  = None        # shared mask applied to all batch images, or None
+BATCH_INPUT_DIR = None  # process all images in this folder (alternative to BATCH_JOBS)
+BATCH_OUTPUT_DIR = None  # save batch results to this folder
+BATCH_MASK_PATH = None  # shared mask applied to all batch images, or None
 
-SORT_AXIS        = "horizontal"  # "horizontal" | "vertical"
-SORT_KEY         = "brightness"  # "brightness" | "hue" | "saturation" | "red" | "green" | "blue"
-THRESHOLD_MIN    = 23            # pixels with key value below this are not sorted
-THRESHOLD_MAX    = 210           # pixels with key value above this are not sorted
-REVERSE          = False         # False = low → high; True = high → low
-ANGLE            = 0             # rotate image before sorting, then rotate back (degrees)
-MASK_THRESHOLD   = 128           # mask pixel value >= this is treated as a sortable region
+SORT_AXIS = "horizontal"  # "horizontal" | "vertical"
+SORT_KEY = (
+    "brightness"  # "brightness" | "hue" | "saturation" | "red" | "green" | "blue"
+)
+THRESHOLD_MIN = 23  # pixels with key value below this are not sorted
+THRESHOLD_MAX = 210  # pixels with key value above this are not sorted
+REVERSE = False  # False = low → high; True = high → low
+ANGLE = 0  # rotate image before sorting, then rotate back (degrees)
+MASK_THRESHOLD = 128  # mask pixel value >= this is treated as a sortable region
 # ──────────────────────────────────────────────────────────────────────────────
 
 IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff", ".webp"}
@@ -111,7 +113,7 @@ def process_image(input_path, output_path, mask_path=None):
         img = img.rotate(-ANGLE, expand=True)
         original = Image.open(input_path).convert("RGB")
         left = (img.width - original.width) // 2
-        top  = (img.height - original.height) // 2
+        top = (img.height - original.height) // 2
         img = img.crop((left, top, left + original.width, top + original.height))
 
     os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
@@ -134,8 +136,10 @@ def build_batch_jobs():
 if BATCH_MODE:
     jobs = build_batch_jobs()
     if not jobs:
-        print("BATCH_MODE is True but no jobs found. "
-              "Populate BATCH_JOBS or set BATCH_INPUT_DIR / BATCH_OUTPUT_DIR.")
+        print(
+            "BATCH_MODE is True but no jobs found. "
+            "Populate BATCH_JOBS or set BATCH_INPUT_DIR / BATCH_OUTPUT_DIR."
+        )
     for i, (inp, out) in enumerate(jobs, 1):
         print(f"[{i}/{len(jobs)}] {inp} ...")
         process_image(inp, out, mask_path=BATCH_MASK_PATH)
